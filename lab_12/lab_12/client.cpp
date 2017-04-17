@@ -32,7 +32,7 @@ int main()
 
 	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
 	Addr.sin_family = AF_INET; // протокол ipv4 
-	Addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip-адрес сервера. Его нужно спрашивать в меню у пользователя. Сейчас - это наш же компьютер 
+	Addr.sin_addr.s_addr = inet_addr("25.98.234.37"); //ip-адрес сервера. Его нужно спрашивать в меню у пользователя. Сейчас - это наш же компьютер 
 	Addr.sin_port = htons(8888); // порт сервера, к которому хотим подсоединиться 
 
 
@@ -46,16 +46,9 @@ int main()
 
 	printf("Connection successful !\n");
 
-	int i = 0;
-	for (i = 0; i < 10; i++)
-	{
 		recv(Socket, resp, 17, 0);
 		printf("Message from server: %s\n", resp);
-		if (i % 2 == 0)
-			send(Socket, "13", 3, MSG_OOB);
-		else
-			send(Socket, "31", 3, MSG_OOB);
-	}
+			send(Socket, "-", 3, MSG_OOB);
 
 
 	closesocket(Socket); // после работы закрыть сокет 
