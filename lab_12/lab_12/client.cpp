@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>   // Needed for _wtoi
 
@@ -56,6 +57,6 @@ int main()
 
 	closesocket(Socket); // после работы закрыть сокет 
 	WSACleanup();
-	getchar();
+	_getch();
 	return 0;
 }
