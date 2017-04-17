@@ -59,7 +59,7 @@ int main()
 			printf("Client connected!\n");
 			printf("IP: %s:%d\n", ClientIP, ClientPort);
 
-				send(Sub, "Hello, Katya! How are you?)))))", 17, MSG_OOB);
+				send(Sub, "Hello, Katya! :)", 17, MSG_OOB);
 				recv(Sub, step, 3, 0);
 				printf("Received step: %s\n", step);
 
