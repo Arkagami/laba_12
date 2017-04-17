@@ -32,7 +32,10 @@ int main()
 
 	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
 	Addr.sin_family = AF_INET; // протокол ipv4 
-	Addr.sin_addr.s_addr = inet_addr("25.98.234.37"); //ip-адрес сервера. Его нужно спрашивать в меню у пользователя. Сейчас - это наш же компьютер 
+	char ss[100];
+	printf("Input ip:");
+	scanf(" %s", &ss);
+	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера. Его нужно спрашивать в меню у пользователя. Сейчас - это наш же компьютер 
 	Addr.sin_port = htons(8888); // порт сервера, к которому хотим подсоединиться 
 
 
