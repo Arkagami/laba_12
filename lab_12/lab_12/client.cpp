@@ -11,16 +11,21 @@
 // Need to link with Ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
 
-SOCKET Socket;
+SOCKET Socket, Sub; //сокеты сервера и подключенного клиента 
 WSADATA Winsock;
-sockaddr_in Addr;
-int Addrlen = sizeof(Addr);
-char resp[17];
+sockaddr_in Addr; //структура для записи ip-адреса сервера 
+int Addrlen = sizeof(sockaddr_in);
+char Buffer[256];
+char step[4]; //для 
+char *Str;
+sockaddr_in IncomingAddress; //структура для записи ip-адреса клиента 
+int AddressLen = sizeof(IncomingAddress);
 
 int main()
 {
 
-	WSAStartup(MAKEWORD(2, 2), &Winsock); // Start Winsock 
+	// запускаем библиотеку WinSock2 
+	WSAStartup(MAKEWORD(2, 2), &Winsock);
 
 	if (LOBYTE(Winsock.wVersion) != 2 || HIBYTE(Winsock.wVersion) != 2) // Check version 
 	{
@@ -30,36 +35,41 @@ int main()
 
 	Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
-	Addr.sin_family = AF_INET; // протокол ipv4 
-	Addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip-адрес сервера. Его нужно спрашивать в меню у пользователя. Сейчас - это наш же компьютер 
-	Addr.sin_port = htons(8888); // порт сервера, к которому хотим подсоединиться 
+	ZeroMemory(&Addr, sizeof(Addr)); //зануляем ip-адрес сервера
+	Addr.sin_family = AF_INET; //протокол ipv4 
+	Addr.sin_port = htons(8888); // в скобках - сетевой порт, на котором сервер слушает соединение 
+	bind(Socket, (sockaddr*)&Addr, sizeof(Addr));
 
 
-
-	if (connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) < 0)
-	{
-		printf("Connection failed !\n");
-		getchar();
-		return 0;
-	}
-
-	printf("Connection successful !\n");
-
-	int i = 0;
-	for (i = 0; i < 10; i++)
-	{
-		recv(Socket, resp, 17, 0);
-		printf("Message from server: %s\n", resp);
-		if (i % 2 == 0)
-			send(Socket, "13", 3, MSG_OOB);
+	while (1) {
+		if (listen(Socket, 1) == SOCKET_ERROR)
+		{
+			//если не 
+			printf("listening error\n");
+		}
 		else
-			send(Socket, "31", 3, MSG_OOB);
+		{
+			printf("listening ok\n");
+		}
+		if (Sub = accept(Socket, (sockaddr*)&IncomingAddress, &AddressLen)) //ждем входящие соединения 
+		{
+			// соединение осуществлено 
+			char *ClientIP = inet_ntoa(IncomingAddress.sin_addr);
+			int ClientPort = ntohs(IncomingAddress.sin_port);
+			printf("Client connected!\n");
+			printf("IP: %s:%d\n", ClientIP, ClientPort);
+
+				send(Sub, "Ti pidr! Sosi", 17, MSG_OOB);
+				recv(Sub, step, 3, 0);
+				printf("Received step: %s\n", step);
+
+		}
 	}
 
-
-	closesocket(Socket); // после работы закрыть сокет 
+	closesocket(Sub);
+	closesocket(Socket);
 	WSACleanup();
+
 	getchar();
 	return 0;
 }
