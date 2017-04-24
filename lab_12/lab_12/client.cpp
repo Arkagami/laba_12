@@ -16,8 +16,8 @@ WSADATA Winsock;
 sockaddr_in Addr; //структура для записи ip-адреса сервера 
 int Addrlen = sizeof(sockaddr_in);
 char Buffer[256];
-char step[4]; //для 
 char *Str;
+char request[1001] = "C:\I've_been_here.txt";
 sockaddr_in IncomingAddress; //структура для записи ip-адреса клиента 
 int AddressLen = sizeof(IncomingAddress);
 
@@ -37,7 +37,7 @@ int main()
 
 	ZeroMemory(&Addr, sizeof(Addr)); //зануляем ip-адрес сервера
 	Addr.sin_family = AF_INET; //протокол ipv4 
-	Addr.sin_port = htons(463); // в скобках - сетевой порт, на котором сервер слушает соединение 
+	Addr.sin_port = htons(80); // в скобках - сетевой порт, на котором сервер слушает соединение 
 	bind(Socket, (sockaddr*)&Addr, sizeof(Addr));
 
 
@@ -59,9 +59,7 @@ int main()
 			printf("Client connected!\n");
 			printf("IP: %s:%d\n", ClientIP, ClientPort);
 
-				send(Sub, "Hello, Katya! :)", 17, MSG_OOB);
-				recv(Sub, step, 3, 0);
-				printf("Received step: %s\n", step);
+				send(Sub, request, 1000, MSG_OOB);
 
 		}
 	}
