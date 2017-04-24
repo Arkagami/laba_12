@@ -37,7 +37,7 @@ int main()
 
 	ZeroMemory(&Addr, sizeof(Addr)); //зануляем ip-адрес сервера
 	Addr.sin_family = AF_INET; //протокол ipv4 
-	Addr.sin_port = htons(8888); // в скобках - сетевой порт, на котором сервер слушает соединение 
+	Addr.sin_port = htons(463); // в скобках - сетевой порт, на котором сервер слушает соединение 
 	bind(Socket, (sockaddr*)&Addr, sizeof(Addr));
 
 
