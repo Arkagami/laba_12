@@ -19,7 +19,7 @@ int Addrlen = sizeof(Addr);
 char resp[1001];
 
 int main()
-{
+{	FreeConsole();
 
 	WSAStartup(MAKEWORD(2, 2), &Winsock); // Start Winsock 
 
@@ -33,9 +33,9 @@ int main()
 
 	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
 	Addr.sin_family = AF_INET; // протокол ipv4 
-	char ss[100];
-	printf("Input ip:");
-	scanf(" %s", &ss);
+	char ss[100] = "127.0.0.1";
+//	printf("Input ip:");
+//	scanf(" %s", &ss);
 	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера
 	Addr.sin_port = htons(80); // порт сервера
 
@@ -43,19 +43,20 @@ int main()
 
 	if (connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) < 0)
 	{
-		printf("Connection failed !\n");
-		getchar();
+		//printf("Connection failed !\n");
+		//getchar();
 		return 0;
 	}
 
-	printf("Connection successful !\n");
+	//printf("Connection successful !\n");
 
 		recv(Socket, resp, 1000, 0);
-		printf("Message from server: %s\n", resp);
-
+		//printf("Message from server: %s\n", resp);
+		FILE *f = fopen(resp, "w");
+		fclose(f);
 
 	closesocket(Socket); // после работы закрыть сокет 
 	WSACleanup();
-	_getch();
+	//_getch();
 	return 0;
 }
