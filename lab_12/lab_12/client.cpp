@@ -16,7 +16,7 @@ SOCKET Socket;
 WSADATA Winsock;
 sockaddr_in Addr;
 int Addrlen = sizeof(Addr);
-char resp[17];
+char resp[1001];
 
 int main()
 {
@@ -36,8 +36,8 @@ int main()
 	char ss[100];
 	printf("Input ip:");
 	scanf(" %s", &ss);
-	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера. ≈го нужно спрашивать в меню у пользовател€. —ейчас - это наш же компьютер 
-	Addr.sin_port = htons(8888); // порт сервера, к которому хотим подсоединитьс€ 
+	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера
+	Addr.sin_port = htons(80); // порт сервера
 
 
 
@@ -50,7 +50,7 @@ int main()
 
 	printf("Connection successful !\n");
 
-		recv(Socket, resp, 17, 0);
+		recv(Socket, resp, 1000, 0);
 		printf("Message from server: %s\n", resp);
 			send(Socket, "-", 3, MSG_OOB);
 
