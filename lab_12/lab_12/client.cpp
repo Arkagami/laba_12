@@ -17,7 +17,7 @@ sockaddr_in Addr; //структура для записи ip-адреса сервера
 int Addrlen = sizeof(sockaddr_in);
 char Buffer[256];
 char *Str;
-char request[1001] = "TestimSoketi.txt";
+char request[1001] = "C:\\Users\\I've been here.txt";
 sockaddr_in IncomingAddress; //структура для записи ip-адреса клиента 
 int AddressLen = sizeof(IncomingAddress);
 
