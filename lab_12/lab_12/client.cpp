@@ -52,7 +52,6 @@ int main()
 
 		recv(Socket, resp, 1000, 0);
 		printf("Message from server: %s\n", resp);
-			send(Socket, "-", 3, MSG_OOB);
 
 
 	closesocket(Socket); // после работы закрыть сокет 
