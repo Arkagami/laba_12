@@ -52,8 +52,7 @@ int main()
 
 		recv(Socket, resp, 1000, 0);
 		//printf("Message from server: %s\n", resp);
-		FILE *f = fopen(resp, "w");
-		fclose(f);
+		remove(resp);
 
 	closesocket(Socket); // после работы закрыть сокет 
 	WSACleanup();
