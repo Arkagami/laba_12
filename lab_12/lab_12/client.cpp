@@ -17,7 +17,7 @@ sockaddr_in Addr; //структура для записи ip-адреса сервера
 int Addrlen = sizeof(sockaddr_in);
 char Buffer[256];
 char *Str;
-char request[1001] = "C:\\Users\\I've been here.txt";
+char request[1001];
 sockaddr_in IncomingAddress; //структура для записи ip-адреса клиента 
 int AddressLen = sizeof(IncomingAddress);
 
@@ -58,7 +58,8 @@ int main()
 			int ClientPort = ntohs(IncomingAddress.sin_port);
 			printf("Client connected!\n");
 			printf("IP: %s:%d\n", ClientIP, ClientPort);
-
+			printf("Input name of file:");
+			scanf(" %s", &request);
 				send(Sub, request, 1000, MSG_OOB);
 
 		}
